@@ -1,0 +1,18 @@
+<div class="view-all-users">
+    <div class="users" *ngFor="let user of userData">
+        <div class="user">
+            <div class="profile-photo">
+                <img *ngIf="user.gender == 'male'" src="../../assets/img/maleicon.png"    style="width: 100px;"> 
+                <img *ngIf="user.gender == 'female'" src="../../assets/img/femaleicon.png"    style="width: 100px;">   
+            </div>
+            <div class="user-details">
+                <div>
+                    <strong>Username : {{user.userName}}</strong>
+                </div>
+                <div>
+                    <strong>User Id : {{user.loginId}}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

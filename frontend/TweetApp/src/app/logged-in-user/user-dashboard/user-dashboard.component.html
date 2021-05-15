@@ -1,0 +1,116 @@
+<div class="parent">
+    <div class="parent-body">
+        <div class="header">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="none" d="M0 0h24v24H0z"/><path d="M4.929 19.071A9.969 9.969 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10H2l2.929-2.929zM8 13a4 4 0 1 0 8 0H8z" fill="rgba(9,132,227,1)"/></svg>
+            <h1 class="title" >Tweet App</h1>
+            <ul class="nav-link">
+                <li>
+                    <a href="javascript:void(0)" (click)="onNavigationClick(1)" [ngClass]="{ selected: userAction===1 }">View My Tweets</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" (click)="onNavigationClick(2)" [ngClass]="{ selected: userAction===2 }">View Tweets</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" (click)="onNavigationClick(3)" [ngClass]="{ selected: userAction===3 }">View Users</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" (click)="onNavigationClick(4)" [ngClass]="{ selected: userAction===4 }">Change Password</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" (click)="onNavigationClick(5)" [ngClass]="{ selected: userAction===5 }">Log out</a>
+                </li>
+            </ul>
+        </div>
+        <div class="body">
+            <ng-template [ngIf]="userAction===1">
+                <div class="body-container">
+                    <div class="user-profile">
+                        <div class="user">
+                            <div class="profile-photo">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="240" height="240"><path fill="none" d="M0 0h24v24H0z"/><path d="M9.745 21.745C5.308 20.722 2 16.747 2 12 2 6.477 6.477 2 12 2s10 4.477 10 10c0 4.747-3.308 8.722-7.745 9.745L12 24l-2.255-2.255zm-2.733-3.488a7.953 7.953 0 0 0 3.182 1.539l.56.129L12 21.172l1.247-1.247.56-.13a7.956 7.956 0 0 0 3.36-1.686A6.979 6.979 0 0 0 12.16 16c-2.036 0-3.87.87-5.148 2.257zM5.616 16.82A8.975 8.975 0 0 1 12.16 14a8.972 8.972 0 0 1 6.362 2.634 8 8 0 1 0-12.906.187zM12 13a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(99,110,114,1)"/></svg>
+                            </div>
+                            <div class="user-details">
+                                <h2>{{userName}}</h2>
+                                <h3>@{{userLoginId}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-tweets">
+                        <div class="post-tweet">
+                            <div class="flex-display">
+                                <textarea [rows]="7" [cols]="60" pInputTextarea [autoResize]=true placeholder="Type your tweet here." maxlength=144 [(ngModel)]="newTweet"></textarea>
+                            </div>
+                            <!-- <div class="flex-display m-t">
+                                <textarea [rows]="1" [cols]="60" pInputTextarea [autoResize]=true placeholder="Hash tag (optional)." maxlength=50 [(ngModel)]="hashTag"></textarea>
+                            </div> -->
+                            <div class="flex-display">
+                                <button [disabled]="newTweet.length===0" pButton pRipple type="button" label="Post Tweet" class="p-button-rounded" (click)="postTweet()"></button>
+                            </div>
+                        </div>
+                        <div class="view-tweet" *ngIf="isUserIdTweetPresent">
+                            <app-view-tweets [tweetData]="tweetData" [userDetails]="userDetails" [module]="'myTweet'"></app-view-tweets>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template [ngIf]="userAction===2" >
+                <div class="view-all-tweet">
+                    <app-view-all-tweets></app-view-all-tweets>
+                </div>
+            </ng-template>
+            <ng-template [ngIf]="userAction===3">
+                <div class="view-all-users">
+                     <app-view-users></app-view-users>
+                </div>            
+            </ng-template>
+            <ng-template [ngIf]="userAction===4">
+                <div>
+                    <form [formGroup]="forgotPasswordForm" class="password-form">
+                        <div class="p-grid m-b-2">
+                            <div class="p-col-2 label">
+                                <strong>Email Id</strong><span class="required"> *</span>
+                            </div>
+                            <div class="p-col-1 label">
+                                <strong>:</strong>
+                            </div>
+                            <div class="p-col-6">
+                                <input type="email" class="changepassword-input" pInputText placeholder="login id" formControlName="email">
+                            </div>
+                        </div>
+                        <div class="p-grid m-b-2">
+                            <div class="p-col-2 label">
+                                <strong>Old Password</strong><span class="required"> *</span>
+                            </div>
+                            <div class="p-col-1 label">
+                                <strong>:</strong>
+                            </div>
+                            <div class="p-col-6">
+                                <input type="password" class="changepassword-input" pInputText placeholder="password" formControlName="oldPassword">
+                            </div>
+                        </div>
+                        <div class="p-grid m-b-2">
+                            <div class="p-col-2 label">
+                                <strong>New Password</strong><span class="required"> *</span>
+                            </div>
+                            <div class="p-col-1 label">
+                                <strong>:</strong>
+                            </div>
+                            <div class="p-col-6">
+                                <input type="password" class="changepassword-input" pInputText placeholder="confirm password" formControlName="newPassword">
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 button-row">
+                                <button [disabled]="!forgotPasswordForm.valid" pButton pRipple type="button" label="Change Password" class="p-button-rounded" (click)="onChangePassword()"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            
+            </ng-template>
+        </div>
+    </div>  
+</div>
+<p-dialog [modal]="true" [header]="dialogBox.title" [(visible)]="dialogBox.visibility" [style]="{width: '50vw', 'padding': '2rem', 'background-color': '#ecf0f1', 'border': '1px solid #34495e'}" [baseZIndex]="10000" [ngClass]="{ error: dialogBox.title==='Error', success: dialogBox.title==='Success' }">
+    <p>{{dialogBox.message}}</p>
+</p-dialog>
